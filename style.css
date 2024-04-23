@@ -265,15 +265,26 @@ button{
     transition: 0.25s;
 }
 
-
+@media (max-width: 700px) {
+    header{
+        flex-direction: column;
+    }
+    header img{
+        margin-left: 0px;
+    }
+    .search{
+        margin-right: 0px;
+    }
+    .search input {
+        margin: 10px;
+        margin-left: 40px;
+    }
+}
 
 @media (max-width: 640px) {
     body{
         right: 50px;
         left: 50px;
-    }
-    header h1 {
-        margin-left: 50px;
     }
     .singlePokemonInDetail{
         height: 650px;
@@ -326,13 +337,6 @@ button{
         flex-direction: column;
         gap: 5px;
         font-size: 30px;
-    }
-    .search input {
-        margin: 10px;
-        margin-left: 40px;
-    }
-    header {
-        display: block;
     }
     .buttonFor {
         display: none;

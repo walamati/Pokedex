@@ -4,6 +4,8 @@ let allRenderSinglePokemonAPIs = [];
 let colorForSpecies = [];
 let allRenderPokemonSpecies = [];
 let currentIndex = 0;
+let touchStartX = 0;
+let touchEndX = 0;
 
 async function init() {
     await loadPokemonsAPIs();
@@ -133,3 +135,19 @@ function buttonForNext() {
     singlePokemonInDetail(currentIndex);
 }
 
+function handleTouchStart(event) {
+    touchStartX = event.changedTouches[0].screenX;
+}
+
+function handleTouchEnd(event) {
+    touchEndX = event.changedTouches[0].screenX;
+    handleSwipeGesture();
+}
+
+function handleSwipeGesture() {
+    if (touchEndX < touchStartX) {
+        buttonForNext()
+    } else if (touchEndX > touchStartX) {
+        buttonForLast() 
+    }
+}

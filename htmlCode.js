@@ -18,7 +18,8 @@ function renderPokemonHtml(singlePokemon, i){
 
 function singlePokemonInDetailHTML(singlePokemon, i){
     let htmlCode = /*html */ `<div onclick="event.stopPropagation();" class="wholePokemonCard"><button class="buttonFor" onclick="buttonForLast()"><</button>`;
-    htmlCode += /*html */ `<div style="background: ${colorForSpecies[i]}" class="singlePokemonInDetail">`;
+    htmlCode += /*html */ `<div style="background: ${colorForSpecies[i]}" class="singlePokemonInDetail" ontouchstart="handleTouchStart(event)"
+    ontouchend="handleTouchEnd(event)">`;
     if (colorForSpecies[i] == 'black') {
         htmlCode += /*html */ `
             <div style="color: white" class="pokemonName">
