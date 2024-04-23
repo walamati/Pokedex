@@ -7,12 +7,11 @@ let currentIndex = 0;
 
 async function init() {
     await loadPokemonsAPIs();
+    console.log(this);
 }
 
 async function loadPokemonsAPIs() {
-    let url = `https://pokeapi.co/api/v2/pokemon`;
-    let response = await fetch(url);
-    let responseToJson = await response.json(); 
+    let responseToJson = await (await fetch(`https://pokeapi.co/api/v2/pokemon`)).json(); 
     await loadSinglePokemonAPIs(responseToJson)
     startResponseToJson.push(responseToJson)
 }
@@ -28,9 +27,7 @@ async function loadSinglePokemonAPIs(responseToJson) {
 
 async function loadSinglePokemon(){
     for (let i = 0; i < allRenderPokemonAPIs.length; i++) {
-        let url = allRenderPokemonAPIs[i];
-        let response = await fetch(url);
-        let responseToJson = await response.json();
+        let responseToJson = await (await fetch(allRenderPokemonAPIs[i])).json();
         allRenderSinglePokemonAPIs.push(responseToJson);
     }
     await renderPokemon();
@@ -38,31 +35,24 @@ async function loadSinglePokemon(){
 
 async function loadSinglePokemonSpecies() {
     for (let i = 0; i < allRenderSinglePokemonAPIs.length; i++) {
-        const url = allRenderSinglePokemonAPIs[i]['species']['url'];
-        let response = await fetch(url);
-        let responseToJson = await response.json();
+        let responseToJson = await (await fetch(allRenderSinglePokemonAPIs[i]['species']['url'])).json();
         allRenderPokemonSpecies.push(responseToJson);
     }
 }
 
 async function loadMore() {
-    let loadAnimtion = document.getElementById('loadAnimation');
-    try {
+    try { 
         let body = document.getElementById('body').classList.add('hidden');
         await loadSinglePokemonSpecies();
-        loadAnimtion.classList.remove('none');
-        let url = startResponseToJson['0'].next;
-        let response = await fetch(url);
-        let responseToJson = await response.json();
+        let loadAnimtion = document.getElementById('loadAnimation').classList.remove('none');
+        let responseToJson = await (await fetch(startResponseToJson['0'].next)).json();
         startResponseToJson.splice(0, 1);
         startResponseToJson.push(responseToJson);
-        for (let i = 0; i < responseToJson['results'].length; i++) {
-            allRenderPokemonAPIs.push(responseToJson['results'][i]['url']);
-        }
+        Array.prototype.push.apply(allRenderPokemonAPIs, responseToJson['results'].map(result => result['url']));
         allRenderSinglePokemonAPIs.length = 0;
         await loadSinglePokemon();
-    } finally {
-        loadAnimtion.classList.add('none');
+    } finally { 
+        let loadAnimtion = document.getElementById('loadAnimation').classList.add('none');
         let body = document.getElementById('body').classList.remove('hidden');
     } 
 }
@@ -79,19 +69,18 @@ async function renderPokemon() {
 }
 
 async function pokemonColor(singlePokemon){
-    let url = singlePokemon['species']['url'];
-    let response = await fetch(url);
-    let responseToJson = await response.json();
+    let responseToJson = await (await fetch(singlePokemon['species']['url'])).json();
     colorForSpecies.push(responseToJson['color']['name']);
 }
 
 function pokemonSearch() {
     let pokemonSearchInput = document.getElementById('pokemonSearchId').value.toLowerCase();
+    console.log(pokemonSearchInput)
     let pokemonGallery = document.getElementById('pokemonGallery');
     pokemonGallery.innerHTML = '';
     for (let i = 0; i < allRenderSinglePokemonAPIs.length; i++) {
         let singlePokemon = allRenderSinglePokemonAPIs[i];
-        if (allRenderSinglePokemonAPIs[i]['name'].toLowerCase().includes(pokemonSearchInput)) {
+        if (allRenderSinglePokemonAPIs[i]['name'].toLowerCase().startsWith(pokemonSearchInput)) {
             pokemonGallery.innerHTML += renderPokemonHtml(singlePokemon, i);
         }
     }

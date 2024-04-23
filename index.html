@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="font.css" />
     <link rel="icon" type="image/x-icon" href="/img/pokemon.png" />
@@ -15,9 +14,12 @@
   </head>
   <body id="body" onload="init()">
     <header>
-      <h1>Pokedex</h1>
+      <div class="pokemonLogo">
+        <img src="/img/pokemonLogo.png" alt="pokemonLogo" />
+        <h1>Pokedex</h1>
+      </div>
       <div class="search">
-        <input id="pokemonSearchId" type="text" onkeydown="pokemonSearch()" />
+        <input id="pokemonSearchId" type="text" onkeyup="pokemonSearch()" />
       </div>
     </header>
     <div id="pokemonGallery" class="pokemonGallery"></div>
@@ -71,9 +73,5 @@
   </body>
 </html>
 <!--
--loadMore funktion kürzer machen
 -responsive swipe funktion machen 
--suchfunktion verfeinern damit nach 3 buchstben nur die pokemons sind die auch 3buchstben in der reihenfolge sind
--im headder ein bild einfügen
-
 -->
