@@ -42,8 +42,8 @@ function singlePokemonInDetailHTML(singlePokemon, i){
     htmlCode += /*html */ `
     <div class="details">
         <div>
-            <button class="buttonAboutPokemon" onclick="pokemonData()">Data</button>
-            <button class="buttonAboutPokemon" onclick="pokemonAbout(${i})">About</button>
+        <button class="buttonAboutPokemon" onclick="event.stopPropagation(); pokemonData()">Data</button>
+            <button class="buttonAboutPokemon" onclick="event.stopPropagation(); pokemonAbout(${i})">About</button>
         </div>
         <div class="pokemonAbout" id="pokemonAbout"></div>
         <canvas class="detailChart" id="myChart"></canvas>
